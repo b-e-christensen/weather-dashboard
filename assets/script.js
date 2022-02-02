@@ -8,44 +8,47 @@ var humidityEl = $('#humidity')
 var uvEl = $('#uvIndex')
 var weatherIconEl = $('#weatherIcon')
 var fiveDayForecastEl = $('#fiveDayForecast')
+var cityName = '';
+var stateName = '';
 
-$('#get-weather-btn').on('click', getApi);
 
-  function getApi() {
-    fiveDayForecastEl.html('');
-    // variables that capture user input
-var cityEl = $('#city').val().trim();
-var stateEl = $('#state :selected').val();
-    //uv index seems to only be showing up when the api is called with lat and lon parameters. Will have to make one call with city/state name (as we have below), then pull the lat and lon parameters from that call to make a second call with the newly acquired lat and lon parameters. from there we can grab all the information we need. will also need to do a forecast call. it seems exclude=hourly is a parameter?? possibly will help us avoid the clutter of the three hourly nonsense. 
-  var requestUrl = `https://api.openweathermap.org/data/2.5/weather?q=${cityEl},${stateEl},US&appid=${apiKey}`;
 
-    fetch(requestUrl)
+
+function getApi() {
+  // resets dynamically populated five day forecast div
+  fiveDayForecastEl.html('');
+
+  // initial fetch to pull out lat and lon coordinates
+  // dont really understand why its not really caring about the state code -- might be best to get rid of it?
+    fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName},${stateName},US&appid=${apiKey}`)
       .then(function (response) {
         return response.json();
       })
-      .then(function (data) {
-        console.log(data);
-        var lattitude = data.coord.lat;
-        var longitude = data.coord.lon;
+      .then(function (inititalData) {
+
+        var lattitude = inititalData.coord.lat;
+        var longitude = inititalData.coord.lon;
+
+        // uses newly acquired lat and lon coordinates to fetch the 'one call' api
         fetch(`https://api.openweathermap.org/data/2.5/onecall?lat=${lattitude}&lon=${longitude}&units=imperial&exclude=minutely&appid=${apiKey}`)
         .then(function (response) {
           return response.json();
         })
-        //change data variable here --- data is not a built in variable. can be anything.
+
         .then(function (oneCallData) {
           console.log(oneCallData);
-          console.log(oneCallData.current.dt);
+          // converts unix time to a date
           var dateObject = new Date(oneCallData.current.dt * 1000);
           var humanDateFormat = dateObject.toLocaleString("en-US", {
             year: "numeric",
             month: "2-digit",
             day: "numeric"
           });
-          console.log(humanDateFormat);
-          cityAndDateEl.text(`${cityEl}, ${stateEl} -- ${humanDateFormat}`);
+
+          cityAndDateEl.text(`${cityName}, ${stateName} -- ${humanDateFormat}`);
           weatherIconEl.attr('src', 'https://openweathermap.org/img/w/' + oneCallData.current.weather[0].icon + '.png'); 
           tempEl.text('Temperature: ' + oneCallData.current.temp + '°F');
-          windEl.text('Wind: ' + oneCallData.current.wind_speed + 'mph');
+          windEl.text('Wind: ' + oneCallData.current.wind_speed + ' MPH');
           humidityEl.text('Humidity: ' + oneCallData.current.humidity + '%');
           uvEl.text('UV Index: ' + oneCallData.current.uvi);
           fiveDayForecastEl.removeClass('invisible');
@@ -74,11 +77,20 @@ var stateEl = $('#state :selected').val();
             forecastDiv.append(windh6);
             forecastDiv.append(humidityh6);
 
-
-            
           }
         })
         })
+}
+
+
+function weatherReport() {
+  // variables that capture user input
+  var cityEl = $('#city').val().trim();
+  cityName = cityEl
+  var stateEl = $('#state :selected').val();
+  stateName = stateEl
+  getApi();
+  //button append function
 }
   // function that appends a button to the search area with parameters given to it by that search. Simplest way to go about it would probably be having the new buttons attached to info in local storage. i.e. if I search for denver, then give that button some value in local storage, then set city and state keys in local storage equal to whatever the city and state parameters were for that search. the function would get those values from local storage then run the get api function with those parameters.
   //function that appends the card layout of the projected 5 day forecast. 
@@ -89,3 +101,16 @@ var stateEl = $('#state :selected').val();
 
   // const iconEl = document.createElement('img')
   //               iconEl.src = 'https://openweathermap.org/img/w/' + icon + '.png'
+  
+  $('#get-weather-btn').on('click', weatherReport);
+
+
+
+
+// i have solved it!! What we will have to do when we append the button is 
+function denverSearch () {
+  cityName = 'Denver'
+  stateName = 'CO'
+  getApi()
+}
+
