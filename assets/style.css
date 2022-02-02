@@ -2,3 +2,23 @@ body {
     background-color: #333;
     color: white;
 }
+
+.text-blk {
+    color: black;
+}
+
+.light-blue {
+    background-color: lightblue;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.invisible {
+    display: none;
+}
+
+.icon-img {
+    width: 75px;
+}

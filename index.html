@@ -73,16 +73,17 @@
               <button class="btn mt-3 btn-light w-100" id="get-weather-btn">Get Weather</button>
         </div>
 
-        <div class="col-lg-8 col-md-7 m-2">
-            <div class="row border border-secondary rounded" id="todaysForecast">
-                <h1 class="row col-12" id="cityAndDate">City and Date</h1>
-                <h2 class="row col-12" id="temp">Temperature: </h2>
-                <h2 class="row col-12" id="wind">Wind: </h2>
-                <h2 class="row col-12" id="humidity">Humidity:</h2>
-                <h2 class="row col-12" id="uvIndex">UV Index: </h2>
+        <div class="col-lg-8 col-md-12 m-2">
+            <div class="row border border-secondary rounded w-100" id="todaysForecast">
+                <h1 class="row col-12" id="cityAndDate"></h1>
+                <img id="weatherIcon" src="">
+                <h2 class="row col-12" id="temp"></h2>
+                <h2 class="row col-12" id="wind"></h2>
+                <h2 class="row col-12" id="humidity"></h2>
+                <h2 class="row col-12" id="uvIndex"></h2>
             </div>
-            <div id="fiveDayForecast" class="row">
-                <h1>Five Day Forecast</h1>
+            <div id="fiveDayForecast" class="row invisible">
+                <h1 class="col-12">Five Day Forecast</h1>
             </div>
             <!-- <div class="row" id="fiveDayForecast">
                 <div class="card col-lg-2 col-md-6 col-sm-12">
