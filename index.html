@@ -15,7 +15,7 @@
     </header>
     <main class="row ml-2">
         <div class="col-lg-3 col-md-5 border border-secondary rounded m-2" id="citySearch">
-            <h2>citySearch citySearch citySearch</h2>
+            <h2>City Search</h2>
             <input type="text" placeholder="City" id="city">
             <select name="state" id="state">
                 <option value="AL">Alabama</option>
@@ -71,9 +71,8 @@
                 <option value="WY">Wyoming</option>
               </select>	        
               <button class="btn mt-3 btn-light w-100" id="get-weather-btn">Get Weather</button>
-              <button id="button-append"></button>
-        </div>
-
+              <div class="row" id="search-history"></div>
+            </div>
         <div class="col-lg-8 col-md-12 m-2">
             <div class="row border border-secondary rounded w-100" id="todaysForecast">
                 <h1 class="row col-12" id="cityAndDate"></h1>
@@ -86,48 +85,6 @@
             <div id="fiveDayForecast" class="row invisible">
                 <h1 class="col-12">Five Day Forecast</h1>
             </div>
-            <!-- <div class="row" id="fiveDayForecast">
-                <div class="card col-lg-2 col-md-6 col-sm-12">
-                    <div class="card-body">
-                      <h4 class="card-title">Date</h5>
-                    <h6 id="tempDayOne">Temp</h6>
-                    <h6 id="windDayOne">Wind</h6>
-                    <h6 id="humidityDayOne">humidity</h6>
-                    </div>
-                  </div>
-                  <div class="card col-lg-2 col-md-6 col-sm-12">
-                    <div class="card-body">
-                      <h4 class="card-title">Date</h5>
-                    <h6 id="tempDayOne">Temp</h6>
-                    <h6 id="windDayOne">Wind</h6>
-                    <h6 id="humidityDayOne">humidity</h6>
-                    </div>
-                  </div>
-                  <div class="card col-lg-2 col-md-6 col-sm-12">
-                    <div class="card-body">
-                      <h4 class="card-title">Date</h5>
-                    <h6 id="tempDayOne">Temp</h6>
-                    <h6 id="windDayOne">Wind</h6>
-                    <h6 id="humidityDayOne">humidity</h6>
-                    </div>
-                  </div>
-                  <div class="card col-lg-2 col-md-6 col-sm-12">
-                    <div class="card-body">
-                      <h4 class="card-title">Date</h5>
-                    <h6 id="tempDayOne">Temp</h6>
-                    <h6 id="windDayOne">Wind</h6>
-                    <h6 id="humidityDayOne">humidity</h6>
-                    </div>
-                  </div>
-                  <div class="card col-lg-2 col-md-6 col-sm-12">
-                    <div class="card-body">
-                      <h4 class="card-title">Date</h>
-                    <h6 id="tempDayOne">Temp</h6>
-                    <h6 id="windDayOne">Wind</h6>
-                    <h6 id="humidityDayOne">humidity</h6>
-                    </div>
-                  </div>
-            </div> -->
         </div>
     </main>
 

@@ -44,7 +44,7 @@ function getApi() {
             month: "2-digit",
             day: "numeric"
           });
-
+          // populates today's forecast with the data recieved from the one call api data. 
           cityAndDateEl.text(`${cityName}, ${stateName} -- ${humanDateFormat}`);
           weatherIconEl.attr('src', 'https://openweathermap.org/img/w/' + oneCallData.current.weather[0].icon + '.png'); 
           tempEl.text('Temperature: ' + oneCallData.current.temp + '°F');
@@ -52,7 +52,8 @@ function getApi() {
           humidityEl.text('Humidity: ' + oneCallData.current.humidity + '%');
           uvEl.text('UV Index: ' + oneCallData.current.uvi);
           fiveDayForecastEl.removeClass('invisible');
-
+          
+          // uses a for loop to generate a card layout for the five day forecast
           for (let i = 1; i < 6; i++) {
             const element = oneCallData.daily[i];
             var unixToDate = new Date (element.dt * 1000);
@@ -82,7 +83,45 @@ function getApi() {
         })
 }
 
+// sets searches in local storage to more easily populate search history buttons
+function setHistory() {
+  if(localStorage.getItem('searchHistory') === null) {
+    localStorage.setItem('searchHistory', JSON.stringify([]))
+  }
+  var searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+for (let i = 0; i < searchHistory.length; i++) {
+  const element = searchHistory[i];
+  if (element.city === cityName) {
+    return;
+  }
+}
+  searchHistory.push({city: cityName, state: stateName})
+  localStorage.setItem('searchHistory', JSON.stringify(searchHistory))
 
+}
+
+// generates buttons with info from local storage 
+function recentSearches() {
+  $('#search-history').html('')
+  var searchHistory = JSON.parse(localStorage.getItem('searchHistory'));
+  for (let i = 0; i < searchHistory.length; i++) {
+    const element = searchHistory[i];
+    var searchButton = $('<button></button>').attr({value:element.city + '-' + element.state});
+    searchButton.html(element.city + ', ' + element.state);
+    searchButton.addClass('btn m-1 btn-light w-100');
+    $('#search-history').append(searchButton);
+  }
+}
+
+// grabs weather info on previously searched cities by clicking on their dynamically generated buttons
+$('#search-history').on('click', '.btn', function(event){
+  event.preventDefault();
+  cityName = $(this).val().split('-')[0];
+  stateName = $(this).val().split('-')[1];
+  getApi()
+  })
+
+ // main function. called when the user clicks the get weather button. it runs getApi() to get weather data, setHistory() to update local storage, and recentSearches() to update the search history buttons. 
 function weatherReport() {
   // variables that capture user input
   var cityEl = $('#city').val().trim();
@@ -90,47 +129,12 @@ function weatherReport() {
   var stateEl = $('#state :selected').val();
   stateName = stateEl
   getApi();
-  //button append function
-}
-  // function that appends a button to the search area with parameters given to it by that search. Simplest way to go about it would probably be having the new buttons attached to info in local storage. i.e. if I search for denver, then give that button some value in local storage, then set city and state keys in local storage equal to whatever the city and state parameters were for that search. the function would get those values from local storage then run the get api function with those parameters.
-  //function that appends the card layout of the projected 5 day forecast. 
+  setHistory();
+  recentSearches();
+}  
 
+// goes into local storage on page load to keep the previously searched cities as clickable buttons.
+    recentSearches(); 
 
-
-  // how do we generate a history of searches via buttons? Special consideration -- which I had not yet thought of -- for how to not duplicate search results. E.g. if we had a button for atlanta, and then we searched for atlanta again, then we wouldnt print a new button. A for loop comes to mind -- checking the key value pairs of city and state, 
-
-  // const iconEl = document.createElement('img')
-  //               iconEl.src = 'https://openweathermap.org/img/w/' + icon + '.png'
-  
+// runs the main function on button click.
   $('#get-weather-btn').on('click', weatherReport);
-
-
-
-
-// i have solved it!! What we will have to do when we append the button is 
-function denverSearch () {
-  cityName = 'Denver'
-  stateName = 'CO'
-  getApi()
-}
-
-// console.log($('main').children().eq(1));
-
-
-// what do we want this button append function to do???
-// 1. generate a new button -- its innerHTML displaying the city and state which are the variables that it holds. 
-// 2. Append that button to a div (make a new one that is below the #citySearch div).
-// 3. have the button have the city and state information stored in it. 
-// 4. simpler to give the buttons an attr of ('onclick', 'function()')?? rather than doing target listeners? 
-// 5. give the buttons a value (html attr) with attr('value', '...')
-
-// $('#button-append').attr('value', 'denver')
-// console.log($('#button-append').val());
-
-
-// var heyBaby = 'hey, baby'
-// console.log(heyBaby);
-// console.log(heyBaby.split(', ')[0]);
-// console.log(heyBaby.split(', ')[1]);
-
-// 6. go about the things like this.
