@@ -114,3 +114,23 @@ function denverSearch () {
   getApi()
 }
 
+// console.log($('main').children().eq(1));
+
+
+// what do we want this button append function to do???
+// 1. generate a new button -- its innerHTML displaying the city and state which are the variables that it holds. 
+// 2. Append that button to a div (make a new one that is below the #citySearch div).
+// 3. have the button have the city and state information stored in it. 
+// 4. simpler to give the buttons an attr of ('onclick', 'function()')?? rather than doing target listeners? 
+// 5. give the buttons a value (html attr) with attr('value', '...')
+
+// $('#button-append').attr('value', 'denver')
+// console.log($('#button-append').val());
+
+
+// var heyBaby = 'hey, baby'
+// console.log(heyBaby);
+// console.log(heyBaby.split(', ')[0]);
+// console.log(heyBaby.split(', ')[1]);
+
+// 6. go about the things like this.
