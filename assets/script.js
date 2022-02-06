@@ -5,7 +5,7 @@ var cityAndDateEl = $('#cityAndDate')
 var tempEl = $('#temp')
 var windEl = $('#wind')
 var humidityEl = $('#humidity')
-var uvEl = $('#uvIndex')
+var uvTextEl = $('#uvIndexText')
 var weatherIconEl = $('#weatherIcon')
 var fiveDayForecastEl = $('#fiveDayForecast')
 var cityName = '';
@@ -50,7 +50,19 @@ function getApi() {
           tempEl.text('Temperature: ' + oneCallData.current.temp + '°F');
           windEl.text('Wind: ' + oneCallData.current.wind_speed + ' MPH');
           humidityEl.text('Humidity: ' + oneCallData.current.humidity + '%');
-          uvEl.text('UV Index: ' + oneCallData.current.uvi);
+          uvTextEl.text('UV Index: ');
+          var uvNumber = $('<span></span>');
+          uvNumber.text(' ' + oneCallData.current.uvi)
+          uvTextEl.append(uvNumber)
+          if(oneCallData.current.uvi <= 2) {
+            uvNumber.addClass('green')
+          } else if (2 < oneCallData.current.uvi <= 5) {
+            uvNumber.addClass('yellow')
+          } else if (5 < oneCallData.current.uvi <= 7) {
+            uvNumber.addClass('orange')
+          } else {
+            uvNumber.addClass('red')
+          }
           fiveDayForecastEl.removeClass('invisible');
           
           // uses a for loop to generate a card layout for the five day forecast
