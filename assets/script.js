@@ -1,3 +1,7 @@
+if(localStorage.getItem('searchHistory') === null) {
+  localStorage.setItem('searchHistory', JSON.stringify([]))
+}
+
 var apiKey = '5253d1895ec18b3c6485974e30c75532'
 
 // id's that populate the div that displays today's forecast
@@ -36,7 +40,6 @@ function getApi() {
         })
 
         .then(function (oneCallData) {
-          console.log(oneCallData);
           // converts unix time to a date
           var dateObject = new Date(oneCallData.current.dt * 1000);
           var humanDateFormat = dateObject.toLocaleString("en-US", {
